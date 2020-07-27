@@ -5,6 +5,8 @@ var express = require("express"),
     mongoose = require("mongoose"),
     expressSanitizer = require("express-sanitizer");
 
+    console.log(process.env.DATABASEURL);
+
 //APP CONFIG
 mongoose.connect(process.env.DATABASEURL, {
     useNewUrlParser: true,
