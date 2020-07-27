@@ -6,7 +6,7 @@ var express = require("express"),
     expressSanitizer = require("express-sanitizer");
 
 //APP CONFIG
-mongoose.connect("mongodb://localhost/restful_blog_app", {
+mongoose.connect(process.env.DATABASEURL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false
