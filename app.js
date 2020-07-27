@@ -8,7 +8,7 @@ var express = require("express"),
     console.log(process.env.DATABASEURL);
 
 //APP CONFIG
-mongoose.connect(process.env.DATABASEURL, {
+mongoose.connect("mongodb+srv://Jackie:<Xz7YNckYEUIgLlmk>@cluster0.y49ib.mongodb.net/<dbname>?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false
