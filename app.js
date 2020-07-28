@@ -5,10 +5,8 @@ var express = require("express"),
     mongoose = require("mongoose"),
     expressSanitizer = require("express-sanitizer");
 
-    console.log(process.env.DATABASEURL);
-
 //APP CONFIG
-mongoose.connect("mongodb+srv://Jackie:<Xz7YNckYEUIgLlmk>@cluster0.y49ib.mongodb.net/<dbname>?retryWrites=true&w=majority", {
+mongoose.connect(process.env.DATABASEURL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false
