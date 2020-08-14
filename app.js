@@ -6,7 +6,7 @@ var express = require("express"),
     expressSanitizer = require("express-sanitizer");
 
 //APP CONFIG
-mongoose.connect(process.env.DATABASEURL, {
+mongoose.connect('mongodb://localhost:27017/restful_blog_app', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false
@@ -15,6 +15,7 @@ mongoose.connect(process.env.DATABASEURL, {
 .catch(error => console.log(error.message));
 app.set("view engine", "ejs");
 app.use(express.static("public"));
+app.use('/scripts', express.static(__dirname + '/node_modules'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(methodOverride("_method"));
 app.use(expressSanitizer());
@@ -24,7 +25,13 @@ var blogSchema = new mongoose.Schema({
     title: String,
     image: String,
     body: String,
-    created: {type: Date, default: Date.now}
+    category: String,
+    tag: String,
+    date: {type: Date, default: Date.now},
+    meta: {
+        vote: Number,
+        fars: Number
+    }
 });
 
 var Blog = mongoose.model("Blog", blogSchema);
@@ -51,6 +58,11 @@ app.post("/blogs", function(req, res) {
         }
     });
 });
+
+//ADMIN ROUTE
+app.get("/admin", function(req, res) {
+    res.render("admin/index");
+})
 
 //SHOW ROUTE
 app.get("/blogs/:id", function(req, res) {
