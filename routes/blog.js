@@ -53,15 +53,41 @@ router.get("/:id", function (req, res) {
     });
 });
 
-// DESTROY CAMPGROUND ROUTE
-router.delete("/:id", function(req, res){
-    Blog.findByIdAndRemove(req.params.id, function(err){
+// EDIT CAMPGROUND ROUTE
+router.get("/:id/edit", function (req, res) {
+    Blog.findById(req.params.id, function (err, foundBlog) {
+        tags = foundBlog.tags;
+        var json = tags.map(function (value, key) {
+            return {
+                "value": value
+            }
+        });
+        values = JSON.stringify(json);
+        res.render("blog/edit", { blog: foundBlog, values: values });
+    });
+});
+
+router.put("/:id", function(req, res){
+    // find and update the correct campground
+    Blog.findByIdAndUpdate(req.params.id, req.body.blog, function(err, updatedBlog){
        if(err){
            res.redirect("/blogs");
        } else {
-           res.redirect("/blogs");
+           //redirect somewhere(show page)
+           res.redirect("/blogs/" + req.params.id);
        }
     });
- });
+});
+
+// DESTROY CAMPGROUND ROUTE
+router.delete("/:id", function (req, res) {
+    Blog.findByIdAndRemove(req.params.id, function (err) {
+        if (err) {
+            res.redirect("/blogs");
+        } else {
+            res.redirect("/blogs");
+        }
+    });
+});
 
 module.exports = router;

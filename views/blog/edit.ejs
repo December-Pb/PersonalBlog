@@ -1,0 +1,184 @@
+<%- include ("../partials/header") %>
+
+<div class="container mt-5">
+    <div class="mx-5">
+        <form action="/blogs/<%= blog._id %>?_method=PUT" method="POST">
+            <div class="mb-3">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Title</span>
+                    </div>
+                    <input type="text" class="form-control" id="title" placeholder="title" name="blog[title]" value=<%= blog.title %> required>
+                    <div class="invalid-feedback">
+                        Please provide a valid title.
+                    </div>
+                </div>
+                <div class="invalid-feedback">
+                    Please enter a title.
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Image address</span>
+                    </div>
+                    <input type="text" class="form-control" id="image" placeholder="image" name="blog[image]" value=<%= blog.image %> value required>
+                    <div class="invalid-feedback">
+                        Please provide a valid image address.
+                    </div>
+                </div>
+                <div class="invalid-feedback">
+                    Please enter a title.
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 pr-2">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Category</span>
+                        </div>
+                        <select class="custom-select" id="category" name="blog[category]" value=<%= blog.category %> required>
+                            <option>Log</option>
+                            <option>Error</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please provide a valid category.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 pl-2">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Tag</span>
+                        </div>
+                        <input id="tags" name='blog[tags]' class="form-control" value=<%= values %> pattern='^[A-Za-z_✲ ]{1,15}$' required>
+                        <div class="invalid-feedback">
+                            Please provide a valid tag.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="my-5">
+                <div id="editor" class="rounded">
+                    <!-- Tips: Editor.md can auto append a `<textarea>` tag -->
+                    <textarea style="display:none;" name="blog[body]"><%= blog.body %></textarea>
+                </div>
+            </div>
+            <hr>
+            <div class="text-right my-3">
+                <a href="/blogs" class="btn btn-secondary btn-sm">Back</a>
+                <!-- <button class="btn btn-dark btn-sm" type="submit">Save</button> -->
+                <button id="submitBtn" class="btn btn-success btn-sm" type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+    integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+    crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+    integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+    crossorigin="anonymous"></script>
+<script src="/scripts/editor.md/editormd.min.js"></script>
+<script type="text/javascript">
+    // markdown initialize
+    $(function () {
+        var editor = editormd("editor", {
+            // width: "100%",
+            // height: "100%",
+            // markdown: "xxxx",     // dynamic set Markdown text
+            path: "/scripts/editor.md/lib/"  // Autoload modules mode, codemirror, marked... dependents libs path
+        });
+    });
+
+    var input = document.querySelector('input[id=tags]'),
+        tagify = new Tagify(input, {
+            pattern: /^.{0,20}$/,  // Validate typed tag(s) by Regex. Here maximum chars length is defined as "20"
+            delimiters: ",| ",        // add new tags when a comma or a space character is entered
+            keepInvalidTags: true,         // do not remove invalid tags (but keep them marked as invalid)
+            editTags: 1,            // single click to edit a tag
+            maxTags: 6,
+            blacklist: ["foo", "bar", "baz"],
+            whitelist: ["temple", "stun", "detective", "sign", "passion", "routine", "deck", "discriminate", "relaxation", "fraud", "attractive", "soft", "forecast", "point", "thank", "stage", "eliminate", "effective", "flood", "passive", "skilled", "separation", "contact", "compromise", "reality", "district", "nationalist", "leg", "porter", "conviction", "worker", "vegetable", "commerce", "conception", "particle", "honor", "stick", "tail", "pumpkin", "core", "mouse", "egg", "population", "unique", "behavior", "onion", "disaster", "cute", "pipe", "sock", "dialect", "horse", "swear", "owner", "cope", "global", "improvement", "artist", "shed", "constant", "bond", "brink", "shower", "spot", "inject", "bowel", "homosexual", "trust", "exclude", "tough", "sickness", "prevalence", "sister", "resolution", "cattle", "cultural", "innocent", "burial", "bundle", "thaw", "respectable", "thirsty", "exposure", "team", "creed", "facade", "calendar", "filter", "utter", "dominate", "predator", "discover", "theorist", "hospitality", "damage", "woman", "rub", "crop", "unpleasant", "halt", "inch", "birthday", "lack", "throne", "maximum", "pause", "digress", "fossil", "policy", "instrument", "trunk", "frame", "measure", "hall", "support", "convenience", "house", "partnership", "inspector", "looting", "ranch", "asset", "rally", "explicit", "leak", "monarch", "ethics", "applied", "aviation", "dentist", "great", "ethnic", "sodium", "truth", "constellation", "lease", "guide", "break", "conclusion", "button", "recording", "horizon", "council", "paradox", "bride", "weigh", "like", "noble", "transition", "accumulation", "arrow", "stitch", "academy", "glimpse", "case", "researcher", "constitutional", "notion", "bathroom", "revolutionary", "soldier", "vehicle", "betray", "gear", "pan", "quarter", "embarrassment", "golf", "shark", "constitution", "club", "college", "duty", "eaux", "know", "collection", "burst", "fun", "animal", "expectation", "persist", "insure", "tick", "account", "initiative", "tourist", "member", "example", "plant", "river", "ratio", "view", "coast", "latest", "invite", "help", "falsify", "allocation", "degree", "feel", "resort", "means", "excuse", "injury", "pupil", "shaft", "allow", "ton", "tube", "dress", "speaker", "double", "theater", "opposed", "holiday", "screw", "cutting", "picture", "laborer", "conservation", "kneel", "miracle", "brand", "nomination", "characteristic", "referral", "carbon", "valley", "hot", "climb", "wrestle", "motorist", "update", "loot", "mosquito", "delivery", "eagle", "guideline", "hurt", "feedback", "finish", "traffic", "competence", "serve", "archive", "feeling", "hope", "seal", "ear", "oven", "vote", "ballot", "study", "negative", "declaration", "particular", "pattern", "suburb", "intervention", "brake", "frequency", "drink", "affair", "contemporary", "prince", "dry", "mole", "lazy", "undermine", "radio", "legislation", "circumstance", "bear", "left", "pony", "industry", "mastermind", "criticism", "sheep", "failure", "chain", "depressed", "launch", "script", "green", "weave", "please", "surprise", "doctor", "revive", "banquet", "belong", "correction", "door", "image", "integrity", "intermediate", "sense", "formal", "cane", "gloom", "toast", "pension", "exception", "prey", "random", "nose", "predict", "needle", "satisfaction", "establish", "fit", "vigorous", "urgency", "X-ray", "equinox", "variety", "proclaim", "conceive", "bulb", "vegetarian", "available", "stake", "publicity", "strikebreaker", "portrait", "sink", "frog", "ruin", "studio", "match", "electron", "captain", "channel", "navy", "set", "recommend", "appoint", "liberal", "missile", "sample", "result", "poor", "efflux", "glance", "timetable", "advertise", "personality", "aunt", "dog"],
+            transformTag: transformTag,
+            backspace: "edit",
+            dropdown: {
+                enabled: 1,            // show suggestion after 1 typed character
+                fuzzySearch: false,    // match only suggestions that starts with the typed characters
+                position: 'text',      // position suggestions list next to typed text
+                caseSensitive: true,   // allow adding duplicate items if their case is different
+            },
+            templates: {
+                dropdownItemNoMatch: function (data) {
+                    return `
+                    No suggestion found for: ${data.value}
+                `
+                }
+            }
+        })
+
+    // generate a random color (in HSL format, which I like to use)
+    function getRandomColor() {
+        function rand(min, max) {
+            return min + Math.random() * (max - min);
+        }
+
+        var h = rand(1, 360) | 0,
+            s = rand(40, 70) | 0,
+            l = rand(65, 72) | 0;
+
+        return 'hsl(' + h + ',' + s + '%,' + l + '%)';
+    }
+
+    function transformTag(tagData) {
+        tagData.style = "--tag-bg:" + getRandomColor();
+
+        if (tagData.value.toLowerCase() == 'shit')
+            tagData.value = 's✲✲t'
+    }
+
+    tagify.on('add', function (e) {
+        console.log(e.detail)
+    })
+
+    tagify.on('invalid', function (e) {
+        console.log(e, e.detail);
+    })
+
+    $('#submitBtn').click(function() {
+        var value = JSON.parse($('[id=tags]').val())
+        var tags = []
+        value.forEach(element => {
+            tags.push(element.value)
+        });
+        $('[id=tags]').val(tags.join(' '))
+    })
+</script>
+
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+        'use strict';
+        window.addEventListener('load', function () {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>
+</body>
+
+</html>
