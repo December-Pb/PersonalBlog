@@ -73,8 +73,18 @@ router.put("/:id", function(req, res){
        if(err){
            res.redirect("/blogs");
        } else {
-           //redirect somewhere(show page)
-           res.redirect("/blogs/" + req.params.id);
+            tags = req.body.blog.tags.split(" ");
+            Blog.findById(req.params.id, function(err, updatedBlog) {
+                if(err) {
+                    res.redirect("/blogs");
+                }
+                else {
+                    updatedBlog.tags = tags;
+                    updatedBlog.save();
+                    res.redirect("/blogs/" + req.params.id);
+                }
+                
+            })
        }
     });
 });
