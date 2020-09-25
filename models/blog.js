@@ -18,10 +18,8 @@ var blogSchema = new mongoose.Schema({
     tags: [String],
     comments: [
         {
-            id: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "Comment"
-            }
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Comment"
         }
     ]
 });

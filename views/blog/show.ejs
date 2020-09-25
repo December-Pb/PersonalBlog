@@ -1,7 +1,5 @@
 <%- include ("../partials/header") %>
-<div>Add Comment</div>
-<div>Delete</div>
-<div>Edit</div>
+
 <body>
     <div class="container">
         <img src="<%= blog.image %>" alt="">
@@ -9,31 +7,64 @@
 
     <main role="main" class="container">
         <h3 class="pb-3 mb-4 font-italic border-bottom">
-            <%= blog.category %> 
+            <%= blog.category %>
         </h3>
 
         <div class="blog-post">
             <h2 class="blog-post-title"><%= blog.title %> </h2>
             <%- marked(blog.body) %>
             <div class="row">
-                <p class="blog-post-meta col-lg-8 my-5"><%= moment(blog.date).format('L'); %> <a href="#"><%= blog.author.username %> </a></p>
+                <p class="blog-post-meta col-lg-8 my-5"><%= moment(blog.date).format('L'); %> <a
+                        href="#"><%= blog.author.username %> </a></p>
                 <div class="float-right col-lg-4 my-5">
                     <% blog.tags.forEach(seed => { %>
-                        <button class="btn btn-outline-success float-right btn-xs"><%= seed %></button>
-                    <% }); %> 
+                    <button class="btn btn-outline-success float-right btn-xs"><%= seed %></button>
+                    <% }); %>
                 </div>
             </div>
         </div><!-- /.blog-post -->
 
+        <!-- comment part -->
+        <% blog.comments.forEach(function(comment){ %>
+        <div class="row">
+            <div class="col-md-12">
+                <strong><%= comment.author.username %></strong>
+                <span class="pull-right">10 days ago</span>
+                <p>
+                    <%= comment.text %>
+                </p>
+
+                <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
+                <button class="btn btn-xs btn-warning" id="comment_edit">Edit</button>
+                <form id="delete-form" action="/blogs/<%=blog._id %>/comments/<%=comment._id %>?_method=DELETE"
+                    method="POST">
+                    <input type="submit" class="btn btn-xs btn-danger" value="Delete">
+                </form>
+                <% } %>
+            </div>
+        </div>
+        <% }) %>
+
         <nav class="blog-pagination">
             <a class="btn btn-outline-primary float-right" href="/blogs">Back</a>
+            <% if(currentUser) {%>
+            <form action="/blogs/<%= blog._id %>/comments" method="POST">
+                <div class="form-group">
+                    <label for="comment">Comment:</label>
+                    <textarea class="form-control" rows="5" id="comment" name="commentText"></textarea>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-lg btn-primary btn-block">Add New Comment</button>
+                </div>
+            </form>
+            <% } %>
             <% if(currentUser && currentUser.username === 'jiaqsun@bu.edu'){ %>
-                <form id="delete-form" action="/blogs/<%= blog._id %>?_method=DELETE" method="POST">
-                    <button class="btn btn-xs btn-danger">Delete</button>
-                </form>
-                <a href="/blogs/<%= blog._id %>/edit" class="btn btn-xs btn-primary">Edit</a>
-            <% }%>
+            <form id="delete-form" action="/blogs/<%= blog._id %>?_method=DELETE" method="POST">
+                <button class="btn btn-xs btn-danger">Delete</button>
+            </form>
+            <a href="/blogs/<%= blog._id %>/edit" class="btn btn-xs btn-primary">Edit</a>
+            <% } %>
         </nav>
 
     </main><!-- /.container -->
-<%- include ("../partials/footer") %>
+    <%- include ("../partials/footer") %>

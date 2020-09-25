@@ -5,9 +5,10 @@ var express = require("express"),
     app = express(),
     bodyParser = require("body-parser"),
     mongoose = require("mongoose"),
-    expressSanitizer = require("express-sanitizer");
-    moment = require("moment");
-    passport = require("passport");
+    expressSanitizer = require("express-sanitizer"),
+    moment = require("moment"),
+    passport = require("passport"),
+    flash = require("connect-flash"),
     LocalStrategy = require("passport-local");
 
 var Blog = require("./models/blog");
@@ -16,6 +17,7 @@ var Blog = require("./models/blog");
     
 var blogRoute = require("./routes/blog");
     indexRoute = require("./routes/index");
+    commentRoute = require("./routes/comment");
 
 //APP CONFIG
 mongoose.connect('mongodb://localhost:27017/restful_blog_app', {
@@ -51,8 +53,8 @@ app.use(methodOverride("_method"));
 app.use(expressSanitizer());
 app.locals.moment = require('moment');
 app.locals.marked = require('marked');
+app.use(flash());
 
-// seedDB();
 
 app.use(function(req, res, next){
     res.locals.currentUser = req.user;
@@ -61,6 +63,7 @@ app.use(function(req, res, next){
 
 app.use("/blogs", blogRoute);
 app.use("/", indexRoute);
+app.use("/blogs/:id/comments", commentRoute);
 
 app.listen(process.env.PORT || 3000, process.env.IP, function() {
     console.log("SERVER IS RUNNING");
