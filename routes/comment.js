@@ -1,51 +1,51 @@
 var express = require("express");
-var router  = express.Router({mergeParams: true});
+var router = express.Router({ mergeParams: true });
 var Blog = require("../models/blog");
 var Comment = require("../models/comment");
 var middleware = require("../middleware");
 
 
 // Comments New
-router.get("/new",middleware.isLogin, function(req, res){
+router.get("/new", middleware.isLogin, function (req, res) {
     // find campground by id
     console.log(req.params.id);
-    Blog.findById(req.params.id, function(err, blog){
-        if(err){
+    Blog.findById(req.params.id, function (err, blog) {
+        if (err) {
             console.log(err);
         } else {
-            res.render("blog/show", {blog: blog});
+            res.render("blog/show", { blog: blog });
         }
     })
 });
 
 //Comments Create
-router.post("/",middleware.isLogin,function(req, res){
-   //lookup campground using ID
-   Blog.findById(req.params.id, function(err, blog){
-       if(err){
-           console.log(err);
-           res.redirect("/blogs");
-       } else {
-        Comment.create(req.body.comment, function(err, comment){
-           if(err){
-               req.flash("error", "Something went wrong");
-               console.log(err);
-           } else {
-               //add username and id to comment
-               comment.author.id = req.user._id;
-               comment.author.username = req.user.username;
-               comment.text = req.body.commentText;
-               //save comment
-               comment.save();
-               blog.comments.push(comment);
-               blog.save();
-               console.log(comment);
-               req.flash("success", "Successfully added comment");
-               res.redirect('/blogs/' + blog._id);
-           }
-        });
-       }
-   });
+router.post("/", middleware.isLogin, function (req, res) {
+    //lookup campground using ID
+    Blog.findById(req.params.id, function (err, blog) {
+        if (err) {
+            console.log(err);
+            res.redirect("/blogs");
+        } else {
+            Comment.create(req.body.comment, function (err, comment) {
+                if (err) {
+                    req.flash("error", "Something went wrong");
+                    console.log(err);
+                } else {
+                    //add username and id to comment
+                    comment.author.id = req.user._id;
+                    comment.author.username = req.user.username;
+                    comment.text = req.body.commentText;
+                    //save comment
+                    comment.save();
+                    blog.comments.push(comment);
+                    blog.save();
+                    console.log(comment);
+                    req.flash("success", "Successfully added comment");
+                    res.redirect('/blogs/' + blog._id);
+                }
+            });
+        }
+    });
 });
 
 // // COMMENT EDIT ROUTE
@@ -59,27 +59,29 @@ router.post("/",middleware.isLogin,function(req, res){
 //    });
 // });
 
-// // COMMENT UPDATE
-// router.put("/:comment_id", middleware.checkCommentOwnership, function(req, res){
-//    Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment){
-//       if(err){
-//           res.redirect("back");
-//       } else {
-//           res.redirect("/blogs/" + req.params.id );
-//       }
-//    });
-// });
+// COMMENT UPDATE
+router.put("/:comment_id", middleware.checkCommentOwnership, function (req, res) {
+    console.log(req.params.comment_id)
+    Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function (err, updatedComment) {
+        if (err) {
+            res.redirect("back");
+        } else {
+            console.log("updated!");
+            res.redirect("/blogs/" + req.params.id);
+        }
+    });
+});
 
 // COMMENT DESTROY ROUTE
-router.delete("/:comment_id", middleware.checkCommentOwnership, function(req, res){
+router.delete("/:comment_id", middleware.checkCommentOwnership, function (req, res) {
     //findByIdAndRemove
-    Comment.findByIdAndRemove(req.params.comment_id, function(err){
-       if(err){
-           res.redirect("back");
-       } else {
-           req.flash("success", "Comment deleted");
-           res.redirect("/blogs/" + req.params.id);
-       }
+    Comment.findByIdAndRemove(req.params.comment_id, function (err) {
+        if (err) {
+            res.redirect("back");
+        } else {
+            req.flash("success", "Comment deleted");
+            res.redirect("/blogs/" + req.params.id);
+        }
     });
 });
 
