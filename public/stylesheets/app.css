@@ -50,3 +50,7 @@ a {
   transition:0s;
   border-color: var(--tags-focus-border-color);
 }
+
+.hide_edit_div {
+    display: none;
+}
