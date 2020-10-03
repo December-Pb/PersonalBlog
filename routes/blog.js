@@ -8,8 +8,32 @@ router.get("/", function (req, res) {
         if (err) {
             console.log(err);
         } else {
-            res.render("blog/index", { blogs: allBlog });
+            Blog.distinct("tags", function(errors, allTags) {
+                Blog.distinct("category", function(errors, allCategories) {
+                    res.render("blog/index", { blogs: allBlog, tags: allTags, categories: allCategories});
+                })
+            })
         }
+    });
+});
+
+router.get("/category/:id", function(req, res) {
+    console.log(req.params.id);
+    var category_name = req.params.id;
+    Blog.find({"category": category_name}, function(err, allBlog) {
+        res.status(200);
+        res.render("blog/search_result", {blogs: allBlog});
+        res.end();
+    });
+});
+
+router.get("/tag/:id", function(req, res) {
+    console.log(req.params.id);
+    var tag_name = req.params.id;
+    Blog.find({"tags": tag_name}, function(err, allBlog) {
+        res.status(200);
+        res.render("blog/search_result", {blogs: allBlog});
+        res.end();
     });
 });
 
@@ -47,9 +71,10 @@ router.get("/:id", function (req, res) {
         if (err) {
             console.log(err);
         } else {
+            // Blog.find.distinct("tags", function(errors, foundTags) {
+                res.render("blog/show", { blog: foundBlog});
             //render show template with that campground
-            console.log(foundBlog);
-            res.render("blog/show", { blog: foundBlog });
+            
         }
     });
 });

@@ -5,47 +5,49 @@
         <div class="col-lg-8 my-5">
             <div class="px-2 py-3 border">
                 <h3 class="mx-2">Blog</h3>
-                <% blogs.forEach(function(blog){ %>
-                <hr>
-                <div class="container-fluid">
-                    <h3><a href="/blogs/<%= blog._id %>"><%= blog.title %> </a></h3>
-                    <div class="row">
-                        <div class="col-lg-8 order-2 order-lg-1">
-                            <p><%- marked(blog.body.substring(1, 100)) %>...</p>
-                            <div class="small">
-                                <img src="https://unsplash.it/180/130?image=1005" alt="Avatar" class="avatar">
-                                <a href="#">Jiaqian Sun</a>
-                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar3"
-                                    fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd"
-                                        d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" />
-                                    <path fill-rule="evenodd"
-                                        d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
-                                </svg>
-                                <span><%- moment(blog.date).format('L'); %> </span>
-                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-eye" fill="currentColor"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd"
-                                        d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.134 13.134 0 0 0 1.66 2.043C4.12 11.332 5.88 12.5 8 12.5c2.12 0 3.879-1.168 5.168-2.457A13.134 13.134 0 0 0 14.828 8a13.133 13.133 0 0 0-1.66-2.043C11.879 4.668 10.119 3.5 8 3.5c-2.12 0-3.879 1.168-5.168 2.457A13.133 13.133 0 0 0 1.172 8z" />
-                                    <path fill-rule="evenodd"
-                                        d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
-                                </svg>
-                                <span><%= blog.views %></span>
-                                <% blog.tags.forEach(element => { %>
-                                    <button class="btn btn-outline-success float-right btn-xs"><%= element %></button>
-                                <% }); %> 
+                <div id="blog_content">
+                    <% blogs.forEach(function(blog){ %>
+                        <hr>
+                        <div class="container-fluid">
+                            <h3><a href="/blogs/<%= blog._id %>"><%= blog.title %> </a></h3>
+                            <div class="row">
+                                <div class="col-lg-8 order-2 order-lg-1">
+                                    <p><%- marked(blog.body.substring(1, 100)) %>...</p>
+                                    <div class="small">
+                                        <img src="https://unsplash.it/180/130?image=1005" alt="Avatar" class="avatar">
+                                        <a href="#">Jiaqian Sun</a>
+                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar3"
+                                            fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" />
+                                            <path fill-rule="evenodd"
+                                                d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+                                        </svg>
+                                        <span><%- moment(blog.date).format('L'); %> </span>
+                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-eye" fill="currentColor"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.134 13.134 0 0 0 1.66 2.043C4.12 11.332 5.88 12.5 8 12.5c2.12 0 3.879-1.168 5.168-2.457A13.134 13.134 0 0 0 14.828 8a13.133 13.133 0 0 0-1.66-2.043C11.879 4.668 10.119 3.5 8 3.5c-2.12 0-3.879 1.168-5.168 2.457A13.133 13.133 0 0 0 1.172 8z" />
+                                            <path fill-rule="evenodd"
+                                                d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
+                                        </svg>
+                                        <span><%= blog.views %></span>
+                                        <% blog.tags.forEach(element => { %>
+                                        <button class="btn btn-outline-success float-right btn-xs"><%= element %></button>
+                                        <% }); %>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 order-1 order-lg-2">
+                                    <a href="/blogs/<%= blog._id %>">
+                                        <img class="image auto d-block"
+                                            src="https://images.pexels.com/photos/1230302/pexels-photo-1230302.jpeg?auto=compress&cs=tinysrgb&h=350"
+                                            alt="img-responsive">
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 order-1 order-lg-2">
-                            <a href="/blogs/<%= blog._id %>">
-                                <img class="image auto d-block"
-                                    src="https://images.pexels.com/photos/1230302/pexels-photo-1230302.jpeg?auto=compress&cs=tinysrgb&h=350"
-                                    alt="img-responsive">
-                            </a>
-                        </div>
-                    </div>
+                    <% }); %>
                 </div>
-                <% }); %>
             </div>
         </div>
         <div class="col-lg-4 my-5">
@@ -58,19 +60,18 @@
                 <div class="container m-1">
                     <ul class="list-group">
                         <!-- for 循环 -->
-                        <a href="#">
-                            <li class="list-group-item">
-                                <span>Learning Log</span>
-                                <div class="text-success float-right">13</div>
-                            </li>
-                        </a>
-                        <a href="#">
-                            <li class="list-group-item">
-                                <span>Learning Log</span>
-                                <div class="text-success float-right">13</div>
-                            </li>
-                        </a>
-                        <!-- for 结束 -->
+                        <% categories.forEach((element, index) => { %>
+                            <% if(index < 10) { %>
+                                <a href="javascript:onCategoryClick('<%= element %>');">
+                                    <li class="list-group-item">
+                                        <span><%= element %></span>
+                                    </li>
+                                </a>
+                            <% } %>
+                        <% }); %>
+                        <% if(categories.length >= 10) { %>
+                            <div>...</div>
+                        <% } %>
                     </ul>
                 </div>
             </div>
@@ -83,27 +84,69 @@
                 <div class="container m-1">
                     <ul class="list-group">
                         <!-- for 循环 -->
-                        <a href="#">
-                            <li class="list-group-item">
-                                <span>Spring</span>
-                                <div class="text-success float-right">13</div>
-                            </li>
-                        </a>
-                        <a href="#">
-                            <li class="list-group-item">
-                                <span>Spring</span>
-                                <div class="text-success float-right">13</div>
-                            </li>
-                        </a>
+                        <% tags.forEach((element, index) => { %>
+                            <% if(index < 10) {%>
+                            <a href="javascript:onTagClick('<%= element %>');">
+
+                                <li class="list-group-item">
+                                    <span><%= element %></span>
+                                </li>
+
+                            </a>
+                            <% } %>
+                        <% }); %>
+                        <% if(tags.length >= 10) { %>
+                            <div>...</div>
+                        <% } %>
                         <!-- for 结束 -->
                     </ul>
                 </div>
             </div>
             <% if(currentUser && currentUser.username === 'jiaqsun@bu.edu'){ %>
-                <a class="btn btn-outline-success" href="/blogs/new">New Post</a>
+            <a class="btn btn-outline-success" href="/blogs/new">New Post</a>
             <% }%>
         </div>
     </div>
 </div>
+
+<script>
+    function onCategoryClick(element) {
+        $.ajax({
+            url: "/blogs/category/" + element,
+            type: "GET", //send it through get method
+            data: {
+                "category": element
+            },
+            success: function (response) {
+                // console.log(response);
+                changeContent(response);
+            },
+            error: function (xhr) {
+                //Do Something to handle error
+            }
+        });
+    }
+
+    function onTagClick(element) {
+        $.ajax({
+            url: "/blogs/tag/" + element,
+            type: "GET", //send it through get method
+            data: {
+                "tag": element
+            },
+            success: function (response) {
+                // console.log(response);
+                changeContent(response);
+            },
+            error: function (xhr) {
+                //Do Something to handle error
+            }
+        });
+    }
+
+    function changeContent(content) {
+        $("#blog_content").html(content);
+    }
+</script>
 
 <%- include ("../partials/footer") %>
