@@ -54,7 +54,9 @@
             <div class="container border py-2">
                 <div class="container">
                     <span>Category</span>
-                    <a href="#" class="float-right">more >></a>
+                    <% if(categories.length > 10) {%> 
+                        <a href="#" class="float-right">more >></a>
+                    <% } %> 
                 </div>
                 <hr>
                 <div class="container m-1">
@@ -78,7 +80,9 @@
             <div class="container border py-2 my-2">
                 <div class="container">
                     <span>Tag</span>
-                    <a href="#" class="float-right">more >></a>
+                    <% if(tags.length > 10) {%> 
+                        <a href="#" class="float-right">more >></a>
+                    <% } %> 
                 </div>
                 <hr>
                 <div class="container m-1">
@@ -103,7 +107,7 @@
                 </div>
             </div>
             <% if(currentUser && currentUser.username === 'jiaqsun@bu.edu'){ %>
-            <a class="btn btn-outline-success" href="/blogs/new">New Post</a>
+                <a class="btn btn-outline-success" href="/blogs/new">New Post</a>
             <% }%>
         </div>
     </div>
