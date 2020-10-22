@@ -32,9 +32,7 @@
                                                 d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
                                         </svg>
                                         <span><%= blog.views %></span>
-                                        <% blog.tags.forEach(element => { %>
-                                        <button class="btn btn-outline-success float-right btn-xs"><%= element %></button>
-                                        <% }); %>
+                                        
                                     </div>
                                 </div>
                                 <div class="col-lg-4 order-1 order-lg-2">
@@ -54,42 +52,36 @@
             <div class="container border py-2">
                 <div class="container">
                     <span>Category</span>
-                    <% if(categories.length > 10) {%> 
-                        <a href="#" class="float-right">more >></a>
-                    <% } %> 
+                    
                 </div>
                 <hr>
                 <div class="container m-1">
                     <ul class="list-group">
                         <!-- for 循环 -->
-                        <% categories.forEach((element, index) => { %>
-                            <% if(index < 10) { %>
+                        <% categories.forEach((element) => { %>
+                            
                                 <a href="javascript:onCategoryClick('<%= element %>');">
                                     <li class="list-group-item">
                                         <span><%= element %></span>
                                     </li>
                                 </a>
-                            <% } %>
+                            
                         <% }); %>
-                        <% if(categories.length >= 10) { %>
-                            <div>...</div>
-                        <% } %>
+                        
                     </ul>
                 </div>
             </div>
             <div class="container border py-2 my-2">
                 <div class="container">
                     <span>Tag</span>
-                    <% if(tags.length > 10) {%> 
-                        <a href="#" class="float-right">more >></a>
-                    <% } %> 
+                    
                 </div>
                 <hr>
                 <div class="container m-1">
                     <ul class="list-group">
                         <!-- for 循环 -->
-                        <% tags.forEach((element, index) => { %>
-                            <% if(index < 10) {%>
+                        <% tags.forEach((element) => { %>
+                            
                             <a href="javascript:onTagClick('<%= element %>');">
 
                                 <li class="list-group-item">
@@ -97,11 +89,9 @@
                                 </li>
 
                             </a>
-                            <% } %>
+                           
                         <% }); %>
-                        <% if(tags.length >= 10) { %>
-                            <div>...</div>
-                        <% } %>
+                        
                         <!-- for 结束 -->
                     </ul>
                 </div>

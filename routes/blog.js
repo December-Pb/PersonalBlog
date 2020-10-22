@@ -2,37 +2,77 @@ var express = require("express");
 var router = express.Router();
 var Blog = require("../models/blog");
 var middleware = require("../middleware");
+const { json } = require("body-parser");
 
 router.get("/", function (req, res) {
     Blog.find({}, function (err, allBlog) {
         if (err) {
             console.log(err);
         } else {
-            Blog.distinct("tags", function(errors, allTags) {
-                Blog.distinct("category", function(errors, allCategories) {
-                    res.render("blog/index", { blogs: allBlog, tags: allTags, categories: allCategories});
+            Blog.distinct("tags", function (errors, allTags) {
+                Blog.distinct("category", function (errors, allCategories) {
+                    res.render("blog/index", { blogs: allBlog, tags: allTags, categories: allCategories });
                 })
             })
         }
     });
 });
 
-router.get("/category/:id", function(req, res) {
+router.get("/archive", function (req, res) {
+    Blog.find({}, function (err, allBlog) {
+        blogList = {};
+        if (err) {
+            console.log(err);
+        } else {
+
+            allBlog.sort((a, b) => {
+                return a.date > b.date ? -1 : 1;
+            });
+            allBlog.forEach((element) => {
+                var month = ["January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"][element.date.getMonth()];
+                let time_stamp = month + " " + element.date.getFullYear();
+                blogList[time_stamp] = blogList[time_stamp] || [];
+                blogList[time_stamp].push(element);
+            })
+            blogList = JSON.stringify(blogList)
+            res.render("blog/archive", { blogs: blogList });
+        }
+    })
+})
+
+router.get("/search", function (req, res) {
+    let keyword = req.query.keyword;
+    if (keyword === undefined) {
+        res.render("blog/search");
+    }
+    else {
+        Blog.find({ $text: { $search: keyword } })
+            .exec(function (err, allBlog) {
+                console.log(allBlog);
+                res.status(200);
+                res.render("blog/search_result", { blogs: allBlog });
+                res.end();
+            });
+    }
+})
+
+router.get("/category/:id", function (req, res) {
     console.log(req.params.id);
     var category_name = req.params.id;
-    Blog.find({"category": category_name}, function(err, allBlog) {
+    Blog.find({ "category": category_name }, function (err, allBlog) {
         res.status(200);
-        res.render("blog/search_result", {blogs: allBlog});
+        res.render("blog/search_result", { blogs: allBlog });
         res.end();
     });
 });
 
-router.get("/tag/:id", function(req, res) {
+router.get("/tag/:id", function (req, res) {
     console.log(req.params.id);
     var tag_name = req.params.id;
-    Blog.find({"tags": tag_name}, function(err, allBlog) {
+    Blog.find({ "tags": tag_name }, function (err, allBlog) {
         res.status(200);
-        res.render("blog/search_result", {blogs: allBlog});
+        res.render("blog/search_result", { blogs: allBlog });
         res.end();
     });
 });
@@ -72,9 +112,9 @@ router.get("/:id", function (req, res) {
             console.log(err);
         } else {
             // Blog.find.distinct("tags", function(errors, foundTags) {
-                res.render("blog/show", { blog: foundBlog});
+            res.render("blog/show", { blog: foundBlog });
             //render show template with that campground
-            
+
         }
     });
 });
@@ -93,15 +133,15 @@ router.get("/:id/edit", middleware.isHostLogin, function (req, res) {
     });
 });
 
-router.put("/:id", middleware.isHostLogin, function(req, res){
+router.put("/:id", middleware.isHostLogin, function (req, res) {
     // find and update the correct campground
-    Blog.findByIdAndUpdate(req.params.id, req.body.blog, function(err, updatedBlog){
-       if(err){
-           res.redirect("/blogs");
-       } else {
+    Blog.findByIdAndUpdate(req.params.id, req.body.blog, function (err, updatedBlog) {
+        if (err) {
+            res.redirect("/blogs");
+        } else {
             tags = req.body.blog.tags.split(" ");
-            Blog.findById(req.params.id, function(err, updatedBlog) {
-                if(err) {
+            Blog.findById(req.params.id, function (err, updatedBlog) {
+                if (err) {
                     res.redirect("/blogs");
                 }
                 else {
@@ -109,9 +149,9 @@ router.put("/:id", middleware.isHostLogin, function(req, res){
                     updatedBlog.save();
                     res.redirect("/blogs/" + req.params.id);
                 }
-                
+
             })
-       }
+        }
     });
 });
 

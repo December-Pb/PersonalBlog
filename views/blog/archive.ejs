@@ -1,0 +1,24 @@
+<%- include ("../partials/header") %>
+
+<% let value = JSON.parse(blogs) %> 
+<div class="py-5 container">
+    <h1 class="py-3">
+        Archive
+    </h1>
+    <% for(key in value) { %> 
+        <h3>
+            <%= key %>
+            (<%= value[key].length %>)
+        </h3>
+        <ul>
+            <% value[key].forEach(element => { %>
+                <li class="py-1">
+                    <span><%= moment(element.date).format('L'); %> >> </span>
+                    <a href="/blogs/<%= element._id %>"><%= element.title %> </a>
+                </li>
+            <% }); %> 
+        </ul>
+        
+    <% } %>
+</div>
+<%- include ("../partials/footer") %>

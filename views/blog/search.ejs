@@ -1,0 +1,43 @@
+<%- include ("../partials/header") %>
+
+<div class="container">
+    <form action="/blogs/search/" novalidate>
+        <div class="form-group">
+            <label for="keyword">Key Word</label>
+            <input type="text" class="form-control" name="keyword" id="keyword"
+                placeholder="Enter key word">
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+
+
+<!-- <script>
+    function onSearchClick(element) {
+        $.ajax({
+            url: "/blogs/search/" + element,
+            type: "GET", //send it through get method
+            data: {
+                "tag": element
+            },
+            success: function (response) {
+                // console.log(response);
+                changeContent(response);
+            },
+            error: function (xhr) {
+                //Do Something to handle error
+            }
+        });
+    }
+
+    function changeContent(content) {
+        $("#blog_content").html(content);
+    }
+</script> -->
+
+<%- include ("../partials/footer") %>
