@@ -1,43 +1,27 @@
 <%- include ("../partials/header") %>
 
 <div class="container">
-    <form action="/blogs/search/" novalidate>
+    <form action="/blogs/search/" class="form-signin" novalidate>
         <div class="form-group">
             <label for="keyword">Key Word</label>
-            <input type="text" class="form-control" name="keyword" id="keyword"
-                placeholder="Enter key word">
+            <div class="row">
+                <div class="col-md-9 mb-3">
+                    <input type="text" class="form-control" name="keyword" id="keyword"
+                           placeholder="Enter key word">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
         </div>
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-            <label class="form-check-label" for="exampleCheck1">Check me out</label>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
+    <hr>
+    <% if(blogs !== undefined) { %>
+        <% blogs.forEach((blog)=>{ %>
+            <div class="form-signin">
+                <a href="/blogs/<%= blog._id %>" class=""><%= blog.title %></a>
+            </div>
+    <% }) } %>
 </div>
-
-
-
-<!-- <script>
-    function onSearchClick(element) {
-        $.ajax({
-            url: "/blogs/search/" + element,
-            type: "GET", //send it through get method
-            data: {
-                "tag": element
-            },
-            success: function (response) {
-                // console.log(response);
-                changeContent(response);
-            },
-            error: function (xhr) {
-                //Do Something to handle error
-            }
-        });
-    }
-
-    function changeContent(content) {
-        $("#blog_content").html(content);
-    }
-</script> -->
 
 <%- include ("../partials/footer") %>

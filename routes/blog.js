@@ -44,14 +44,13 @@ router.get("/archive", function (req, res) {
 router.get("/search", function (req, res) {
     let keyword = req.query.keyword;
     if (keyword === undefined) {
-        res.render("blog/search");
+        res.render("blog/search", {blogs: undefined});
     }
     else {
         Blog.find({ $text: { $search: keyword } })
             .exec(function (err, allBlog) {
-                console.log(allBlog);
                 res.status(200);
-                res.render("blog/search_result", { blogs: allBlog });
+                res.render("blog/search", { blogs: allBlog });
                 res.end();
             });
     }
